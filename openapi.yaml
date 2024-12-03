@@ -1,0 +1,275 @@
+openapi: 3.1.0
+info:
+  title: Slack Channel Management API
+  description: API for managing Slack channels, including listing channels and managing their topics and purposes.
+  version: 1.0.0
+servers:
+  - url: https://b06c-2407-d000-1a-4cf4-bdd9-df33-df5c-a993.ngrok-free.app/
+    description: Development server
+
+paths:
+  /list_channels:
+    get:
+      summary: List all Slack channels
+      operationId: listChannels
+      responses:
+        '200':
+          description: A list of Slack channels
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  channels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: C12345678
+                        name:
+                          type: string
+                          example: general
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /get_channel_topic:
+    get:
+      summary: Get the topic of a Slack channel
+      operationId: getChannelTopic
+      parameters:
+        - name: channel_id
+          in: query
+          required: true
+          description: The ID of the Slack channel
+          schema:
+            type: string
+            example: C12345678
+      responses:
+        '200':
+          description: The topic of the channel
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  topic:
+                    type: string
+                    example: Discuss project milestones
+        '400':
+          description: Missing channel_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: channel_id is required
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /update_channel_topic:
+    post:
+      summary: Update the topic of a Slack channel
+      operationId: updateChannelTopic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                channel_id:
+                  type: string
+                  description: The ID of the Slack channel
+                  example: C12345678
+                topic:
+                  type: string
+                  description: The new topic for the channel
+                  example: New project updates
+      responses:
+        '200':
+          description: Channel topic updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Channel topic updated successfully
+        '400':
+          description: Missing channel_id or topic
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: channel_id and topic are required
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /get_channel_purpose:
+    get:
+      summary: Get the purpose of a Slack channel
+      operationId: getChannelPurpose
+      parameters:
+        - name: channel_id
+          in: query
+          required: true
+          description: The ID of the Slack channel
+          schema:
+            type: string
+            example: C12345678
+      responses:
+        '200':
+          description: The purpose of the channel
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  purpose:
+                    type: string
+                    example: Coordinate project tasks
+        '400':
+          description: Missing channel_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: channel_id is required
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Internal server error
+
+  /update_channel_purpose:
+    post:
+      summary: Update the purpose of a Slack channel
+      operationId: updateChannelPurpose
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                channel_id:
+                  type: string
+                  description: The ID of the Slack channel
+                  example: C12345678
+                purpose:
+                  type: string
+                  description: The new purpose for the channel
+                  example: Organize team meetings
+      responses:
+        '200':
+          description: Channel purpose updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Channel purpose updated successfully
+        '400':
+          description: Missing channel_id or purpose
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: channel_id and purpose are required
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Internal server error
